@@ -22,9 +22,9 @@ def webServer(port=13331):
 
             try:
                 message = connectionSocket.recv(1024)# Fill in start    #Fill in end
-                print('Message is: ', message)
+               #print('Message is: ', message)
                 filename = message.split()[1]
-                print('file being located: ', filename)
+               #print('file being located: ', filename)
                 f = open(filename[1:])
                 outputdata = f.read() # Fill in start     #Fill in end
 
