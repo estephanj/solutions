@@ -1,36 +1,68 @@
+# import socket module
+from socket import *
+# In order to terminate the program
+import sys
 
-def welcome_assignment_answers(question):
-    #Students do not have to follow the skeleton for this assignment.
-    #Another way to implement is using a "case" statements similar to C.
-    if question == "Are encoding and encryption the same? - Yes/No":
-        answer = "no"
-    elif question == "Is it possible to decrypt a message without a key? - Yes/No":
-        answer = "no"
-    elif question == "In Slack, what is the secret passphrase posted in the #lab-python-getting-started channel posted by a TA?":
-        answer = "mtls"
-    elif question == "Are encoding and encryption the same? - Yes/No":
-        answer = "no"
-    elif question == "Is it possible to decrypt a message without a key? - Yes/No":
-        answer = "no"
-    elif question == "Is it possible to decode a message without a key? - Yes/No":
-        answer = "Yes"
-    elif question == "Is a hashed message supposed to be un-hashed? - Yes/No":
-        answer = "no"
-    elif question == "What is the MD5 hashing value to the following message: 'NYU Computer Networking' - Use MD5 hash generator and use the answer in your code":
-        answer = "42b76fe51778764973077a5a94056724"
-    elif question == "Is MD5 a secured hashing algorithm? - Yes/No":
-        answer = "no"
-    elif question == "What layer from the TCP/IP model the protocol DHCP belongs to? - The answer should be a numeric number":
-        answer = 5
-    elif question == "What layer of the TCP/IP model the protocol TCP belongs to? - The answer should be a numeric number":
-        answer = 4
 
-    return(answer)
-# Complete all the questions.
+def webServer(port=13331):
+    serverSocket = socket(AF_INET, SOCK_STREAM)
+
+    # Prepare a server socket
+    serverSocket.bind(("", port))
+    # Fill in start
+    serverSocket.listen(1)
+
+    # Fill in end
+
+    while True:
+        # Establish the connection
+        print('Ready to serve...')
+        connectionSocket, addr =serverSocket.accept()  # Fill in start      #Fill in end
+        try:
+
+            try:
+                message = connectionSocket.recv(1024)# Fill in start    #Fill in end
+                print('Message is: ', message)
+                filename = message.split()[1]
+                print('file being located: ', filename)
+                f = open(filename[1:])
+                outputdata = f.read() # Fill in start     #Fill in end
+
+                # Send one HTTP header line into socket.
+                # Fill in start
+                connectionSocket.send('HTTP/1.1 200 OK\r\n\r\n'.encode())
+                #connectionSocket.send(outputdata)
+                #connectionSocket.close()
+
+                # Fill in end
+
+                # Send the content of the requested file to the client
+                for i in range(0, len(outputdata)):
+                    connectionSocket.send(outputdata[i].encode())
+
+                connectionSocket.send('\r\n'.encode())
+                connectionSocket.close()
+            except IOError:
+
+        # Send response message for file not found (404)
+        # Fill in start
+                connectionSocket.send('HTTP/1.1 404 Not Found\r\n\r\n'.encode())
+                connectionSocket.send('Content-Type: text/html\r\n'.encode())
+                connectionSocket.send('\r\n'.encode())
+                connectionSocket.send('<html><head></head><body><h1>404 Not Found</h1></body></html>\r\n'.encode())
+        # Fill in end
+
+        # Close client socket
+        # Fill in start
+                connectionSocket.close()
+        # Fill in end
+
+        except (ConnectionResetError, BrokenPipeError):
+            pass
+
+            serverSocket.close()
+        sys.exit()  # Terminate the program after sending the corresponding data
 
 
 if __name__ == "__main__":
-    #use this space to debug and verify that the program works
-    debug_question =  "What layer of the TCP/IP model the protocol TCP belongs to? - The answer should be a numeric number"
-    print(welcome_assignment_answers(debug_question))
-
+    webServer(13331)
