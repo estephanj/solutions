@@ -1,4 +1,4 @@
-
+# import socket module
 from socket import *
 # In order to terminate the program
 import sys
@@ -16,15 +16,15 @@ def webServer(port=13331):
 
     while True:
         # Establish the connection
-        #print('Ready to serve...')
+        print('Ready to serve...')
         connectionSocket, addr = serverSocket.accept()  # Fill in start      #Fill in end
         try:
 
             try:
                 message = connectionSocket.recv(1024)  # Fill in start    #Fill in end
-                #print('Message is: ', message)
+                print('Message is: ', message)
                 filename = message.split()[1]
-                #print('file being located: ', filename)
+                print('file being located: ', filename)
                 f = open(filename[1:])
                 outputdata = f.read()  # Fill in start     #Fill in end
 
@@ -35,7 +35,7 @@ def webServer(port=13331):
                 connectionSocket.send("Content-Type: text/html\r\n".encode())
                 connectionSocket.send("\r\n".encode())
                 # Fill in end
-                
+
                 # Send the content of the requested file to the client
                 for i in range(0, len(outputdata)):
                     connectionSocket.send(outputdata[i].encode())
@@ -58,11 +58,12 @@ def webServer(port=13331):
                 # Fill in end
 
         except (ConnectionResetError, BrokenPipeError) as e:
-            #print(e)
+            print(e)
             break
 
-        serverSocket.close()
-        sys.exit()  # Terminate the program after sending the corresponding data
+    serverSocket.close()
+    
+    sys.exit()  # Terminate the program after sending the corresponding data
 
 
 if __name__ == "__main__":
