@@ -1,9 +1,4 @@
-#!/usr/bin/env python3
-
-
-# import re
 from socket import *
-from base64 import *
 import ssl
 
 
