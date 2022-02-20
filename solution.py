@@ -1,36 +1,85 @@
-
-def welcome_assignment_answers(question):
-    #Students do not have to follow the skeleton for this assignment.
-    #Another way to implement is using a "case" statements similar to C.
-    if question == "Are encoding and encryption the same? - Yes/No":
-        answer = "no"
-    elif question == "Is it possible to decrypt a message without a key? - Yes/No":
-        answer = "no"
-    elif question == "In Slack, what is the secret passphrase posted in the #lab-python-getting-started channel posted by a TA?":
-        answer = "mtls"
-    elif question == "Are encoding and encryption the same? - Yes/No":
-        answer = "no"
-    elif question == "Is it possible to decrypt a message without a key? - Yes/No":
-        answer = "no"
-    elif question == "Is it possible to decode a message without a key? - Yes/No":
-        answer = "Yes"
-    elif question == "Is a hashed message supposed to be un-hashed? - Yes/No":
-        answer = "no"
-    elif question == "What is the MD5 hashing value to the following message: 'NYU Computer Networking' - Use MD5 hash generator and use the answer in your code":
-        answer = "42b76fe51778764973077a5a94056724"
-    elif question == "Is MD5 a secured hashing algorithm? - Yes/No":
-        answer = "no"
-    elif question == "What layer from the TCP/IP model the protocol DHCP belongs to? - The answer should be a numeric number":
-        answer = 5
-    elif question == "What layer of the TCP/IP model the protocol TCP belongs to? - The answer should be a numeric number":
-        answer = 4
-
-    return(answer)
-# Complete all the questions.
+#!/usr/bin/env python3
 
 
-if __name__ == "__main__":
-    #use this space to debug and verify that the program works
-    debug_question =  "What layer of the TCP/IP model the protocol TCP belongs to? - The answer should be a numeric number"
-    print(welcome_assignment_answers(debug_question))
+# import re
+from socket import *
+from base64 import *
+import ssl
+
+
+def smtp_client(mailPort=1025, mailServer="127.0.0.1"):
+    YOUR_EMAIL = "ejmontero83@gmail.com"
+    YOUR_DESTINATION_EMAIL = "ejmontero83@gmail.com"
+    YOUR_SUBJECT_EMAIL = "just a test for smtp"
+    YOUR_BODY_EMAIL = "worked"
+    msg = "{}. \r\ncyber security Rocks!".format(YOUR_BODY_EMAIL)
+    endmsg = "\r\n.\r\n"
+    # Choose a mail server (e.g. Google mail server) and call it mailserver
+    # mailServer = "smtp.google.com"  #
+    # mailPort = 587
+    # Create socket called clientSocket and establish a TCP connection with mailserver
+    # Fill in start
+
+    clientSocket = ssl.wrap_socket(socket(AF_INET, SOCK_STREAM))
+    # clientSocket = socket(AF_INET, SOCK_STREAM)
+
+    clientSocket.connect((mailServer, mailPort))
+    # Fill in end
+    recv = clientSocket.recv(1024).decode()
+    #print(recv)
+    # if recv[:3] != "220":
+    #     print("220 reply not received from server.")
+    # Send HELO command and print server response.
+    heloCommand = "HELLO Anonymous\r\n".encode()
+    clientSocket.send(heloCommand)
+    recv1 = clientSocket.recv(1024).decode()
+    # print(recv1)
+    # if recv1[:3] != "250":
+    #     print("250 reply not received from server.")
+
+    # Fill in start
+
+    # Fill in end
+    # Send MAIL FROM command and print server response.
+    # Fill in start
+    mailfrom = "MAIL FROM: <{}>\r\n".format(YOUR_EMAIL)
+    clientSocket.send(mailfrom.encode())
+    recv5 = clientSocket.recv(1024).decode()
+    #print(recv5)
+    # Fill in end
+    # Send RCPT TO command and print server response.
+    # Fill in start
+    rcptto = "RCPT TO: <{}>\r\n".format(YOUR_DESTINATION_EMAIL)
+    clientSocket.send(rcptto.encode())
+    recv6 = clientSocket.recv(1024).decode()
+    # Fill in end
+    # Send DATA command and print server response.
+
+    data = "DATA\r\n"
+    clientSocket.send(data.encode())
+    recv7 = clientSocket.recv(1024).decode()
+    #print(recv7)
+    # Fill in end
+    # Send message data.
+    # Fill in start
+    clientSocket.send("Subject: {}\n\n{}".format(YOUR_SUBJECT_EMAIL, msg).encode())
+    # Fill in end
+    # Message ends with a single period.
+    # Fill in start
+    clientSocket.send(endmsg.encode())
+    recv8 = clientSocket.recv(1024).decode()
+    #print(recv8)
+    # Fill in end
+    # Send QUIT command and get server response.
+    # Fill in start
+    quitcommand = "QUIT\r\n"
+    clientSocket.send(quitcommand.encode())
+    recv9 = clientSocket.recv(1024).decode()
+    #print(recv9)
+    clientSocket.close()
+    #print("Was successful!")
+    # Fill in end
+
+
+smtp_client(465, "smtp.gmail.com")
 
