@@ -76,5 +76,5 @@ def smtp_client(mailPort=1025, mailServer="127.0.0.1"):
     # Fill in end
 
 
-smtp_client(465, "smtp.gmail.com")
+#smtp_client(465, "smtp.gmail.com")
 
