@@ -1,4 +1,5 @@
 from socket import *
+
 import ssl
 
 
@@ -15,13 +16,13 @@ def smtp_client(mailPort=1025, mailServer="127.0.0.1"):
     # Create socket called clientSocket and establish a TCP connection with mailserver
     # Fill in start
 
-    clientSocket = ssl.wrap_socket(socket(AF_INET, SOCK_STREAM))
-    # clientSocket = socket(AF_INET, SOCK_STREAM)
+    # clientSocket = ssl.wrap_socket(socket(AF_INET, SOCK_STREAM))
+    clientSocket = socket(AF_INET, SOCK_STREAM)
 
     clientSocket.connect((mailServer, mailPort))
     # Fill in end
     recv = clientSocket.recv(1024).decode()
-    #print(recv)
+    # print(recv)
     # if recv[:3] != "220":
     #     print("220 reply not received from server.")
     # Send HELO command and print server response.
@@ -40,7 +41,7 @@ def smtp_client(mailPort=1025, mailServer="127.0.0.1"):
     mailfrom = "MAIL FROM: <{}>\r\n".format(YOUR_EMAIL)
     clientSocket.send(mailfrom.encode())
     recv5 = clientSocket.recv(1024).decode()
-    #print(recv5)
+    # print(recv5)
     # Fill in end
     # Send RCPT TO command and print server response.
     # Fill in start
@@ -53,7 +54,7 @@ def smtp_client(mailPort=1025, mailServer="127.0.0.1"):
     data = "DATA\r\n"
     clientSocket.send(data.encode())
     recv7 = clientSocket.recv(1024).decode()
-    #print(recv7)
+    # print(recv7)
     # Fill in end
     # Send message data.
     # Fill in start
@@ -63,18 +64,18 @@ def smtp_client(mailPort=1025, mailServer="127.0.0.1"):
     # Fill in start
     clientSocket.send(endmsg.encode())
     recv8 = clientSocket.recv(1024).decode()
-    #print(recv8)
+    # print(recv8)
     # Fill in end
     # Send QUIT command and get server response.
     # Fill in start
     quitcommand = "QUIT\r\n"
     clientSocket.send(quitcommand.encode())
     recv9 = clientSocket.recv(1024).decode()
-    #print(recv9)
+    # print(recv9)
     clientSocket.close()
-    #print("Was successful!")
+    # print("Was successful!")
     # Fill in end
 
 
-#smtp_client(465, "smtp.gmail.com")
+# smtp_client(465, "smtp.gmail.com")
 
