@@ -1,7 +1,7 @@
 from socket import *
 
-import ssl
-
+# import ssl
+# second submission
 
 def smtp_client(mailPort=1025, mailServer="127.0.0.1"):
     YOUR_EMAIL = "ejmontero83@gmail.com"
@@ -26,7 +26,7 @@ def smtp_client(mailPort=1025, mailServer="127.0.0.1"):
     # if recv[:3] != "220":
     #     print("220 reply not received from server.")
     # Send HELO command and print server response.
-    heloCommand = "HELLO Anonymous\r\n".encode()
+    heloCommand = "HELO Anonymous\r\n".encode()
     clientSocket.send(heloCommand)
     recv1 = clientSocket.recv(1024).decode()
     # print(recv1)
@@ -75,7 +75,4 @@ def smtp_client(mailPort=1025, mailServer="127.0.0.1"):
     clientSocket.close()
     # print("Was successful!")
     # Fill in end
-
-
-# smtp_client(465, "smtp.gmail.com")
 
