@@ -106,7 +106,7 @@ def get_route(hostname):
                 can_read, can_write, _ = select.select([mySocket], [], [], timeLeft)
                 howLongInSelect = time.time() - startedSelect
                 if can_read == []:  # Timeout
-                    print(f"{ttl} * * Request timed out.")
+                   # print(f"{ttl} * * Request timed out.")
 
                     tracelist1.append([f"{ttl} * * Request timed out."])
                     continue
@@ -125,7 +125,7 @@ def get_route(hostname):
                     # You should add the list above to your all traces list
                     # Fill in end
             except timeout:
-               # print("timeout")
+                #print("timeout")
                 continue
 
             else:
@@ -159,7 +159,7 @@ def get_route(hostname):
                     timeSent = struct.unpack("d", recvPacket[28 : 28 + bytes])[0]
                     # Fill in start
                     # You should add your responses to your lists
-                    #print(f"{ttl} {howLongInSelect} {addr} Request timed out.")
+                   # print(f"{ttl} {howLongInSelect} {addr} Request timed out.")
                     tracelist1.append(
                         [f"{ttl} {howLongInSelect} {addr} Request timed out."]
                     )
@@ -182,12 +182,20 @@ def get_route(hostname):
                     timeSent = struct.unpack("d", recvPacket[28 : 28 + bytes])[0]
                     # Fill intracelist1 start
                     # You should add your responses to your lists
-                   # print(f"{ttl} {howLongInSelect} {addr} {curr_name}")
-
-                    tracelist1.append([f"{ttl} {howLongInSelect} {addr} {curr_name}"])
-
                     if addr == destAddr:
+                       # print(f"{ttl} {howLongInSelect} {addr} {hostname}")
+
+                        tracelist1.append(
+                            [f"{ttl} {howLongInSelect} {addr} {hostname}"]
+                        )
                         return tracelist1
+                    else:
+                       # print(f"{ttl} {howLongInSelect} {addr} {curr_name}")
+
+                        tracelist1.append(
+                            [f"{ttl} {howLongInSelect} {addr} {curr_name}"]
+                        )
+
                     #  and return your list if your destination IP is met
                     # Fill in end
                 else:
